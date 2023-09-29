@@ -49,6 +49,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
 
+
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -69,7 +70,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     controller: _firstNumber,
                     validator: (value) {
                       if (value!.isEmpty) {
-                        return 'Please Enter First Number';
+                        return 'This field is required';
                       }
                       if(!isNumeric(value)) {
                         return 'Please Enter Numbers only';
@@ -87,8 +88,11 @@ class _HomeScreenState extends State<HomeScreen> {
                     keyboardType: TextInputType.number,
                     controller: _secondNumber,
                     validator: (value) {
-                      if(value!.isEmpty) {
-                        return 'Please enter last number';
+                      if (value!.isEmpty) {
+                        return 'This field is required';
+                      }
+                      if(!isNumeric(value)) {
+                        return 'Please Enter Numbers only';
                       }
                     },
                     decoration: InputDecoration(
@@ -117,8 +121,14 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     ],
                   ),
+                ),
+                Padding(
+                  padding: EdgeInsets.all(5),
+                  child: Container(
+                    alignment: Alignment.topLeft,
+                    child: Text("Sum is ${sum}", style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),),
+                  ),
                 )
-
               ],
             ),
           ),
@@ -127,4 +137,6 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 }
+
+
 
