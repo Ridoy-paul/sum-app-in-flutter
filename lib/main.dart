@@ -25,6 +25,30 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   @override
+  final _firstForm = GlobalKey<FormState>();
+  TextEditingController _firstNumber = TextEditingController();
+  TextEditingController _secondNumber = TextEditingController();
+  int sum = 0;
+
+  _firstFormSubmit() {
+    if(_firstForm.currentState!.validate()) {
+      int number1 = int.parse(_firstNumber.text);
+      int number2 = int.parse(_secondNumber.text);
+      setState(() {
+        sum = number1 + number2;
+      });
+      print(sum);
+    }
+  }
+
+  bool isNumeric(String value) {
+    if (value == null) {
+      return false;
+    }
+    return double.tryParse(value) != null;
+  }
+
+
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -33,11 +57,70 @@ class _HomeScreenState extends State<HomeScreen> {
       body: SafeArea(
         child: Padding(
           padding: EdgeInsets.all(10),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
+          child: Form(
+            key: _firstForm,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: EdgeInsets.all(5),
+                  child: TextFormField(
+                    keyboardType: TextInputType.number,
+                    controller: _firstNumber,
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return 'Please Enter First Number';
+                      }
+                      if(!isNumeric(value)) {
+                        return 'Please Enter Numbers only';
+                      }
+                    },
+                    decoration: InputDecoration(
+                      labelText: "Enter First Number",
+                      border: OutlineInputBorder(),
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.all(5),
+                  child: TextFormField(
+                    keyboardType: TextInputType.number,
+                    controller: _secondNumber,
+                    validator: (value) {
+                      if(value!.isEmpty) {
+                        return 'Please enter last number';
+                      }
+                    },
+                    decoration: InputDecoration(
+                      labelText: "Enter Last Number",
+                      border: OutlineInputBorder(),
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(5.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      OutlinedButton(
+                          onPressed: (){
 
-            ],
+                          },
+                          child: Text("clear")
+                      ),
+                      SizedBox(width: 10,),
+                      ElevatedButton(
+                          onPressed: () {
+                            _firstFormSubmit();
+                          },
+                          child: Text("Submit")
+                      ),
+                    ],
+                  ),
+                )
+
+              ],
+            ),
           ),
         ),
       ),
